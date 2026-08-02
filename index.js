@@ -1,6 +1,6 @@
-import { findByProps } from "@vendetta/metro";
-import { registerCommand } from "@vendetta/commands";
-import { showToast } from "@vendetta/ui/toasts";
+const { findByProps } = require("@vendetta/metro");
+const { registerCommand } = require("@vendetta/commands");
+const { showToast } = require("@vendetta/ui/toasts");
 
 let unregisterCommand;
 
@@ -22,7 +22,7 @@ async function jumpToLatestPing() {
       },
     });
 
-    const mention = res?.body?.[0];
+    const mention = res && res.body && res.body[0];
     if (!mention) {
       showToast("No recent pings found.");
       return;
@@ -39,8 +39,8 @@ async function jumpToLatestPing() {
   }
 }
 
-export default {
-  onLoad() {
+module.exports = {
+  onLoad: function () {
     unregisterCommand = registerCommand({
       name: "goto-ping",
       displayName: "goto-ping",
@@ -49,7 +49,7 @@ export default {
       type: 1, // CHAT_INPUT
       inputType: 1,
       applicationId: "-1", // marks it as a client (local) command
-      execute: async (_args, _ctx) => {
+      execute: async function (_args, _ctx) {
         await jumpToLatestPing();
         return {
           send: false,
@@ -57,7 +57,7 @@ export default {
       },
     });
   },
-  onUnload() {
-    unregisterCommand?.();
+  onUnload: function () {
+    if (unregisterCommand) unregisterCommand();
   },
 };
