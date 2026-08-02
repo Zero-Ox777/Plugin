@@ -1,0 +1,9 @@
+{
+  "name": "GoToPing",
+  "description": "Adds a command to jump straight to your most recent unread mention/ping.",
+  "authors": [
+    { "name": "You" }
+  ],
+  "main": "index.js",
+  "hash": "dev"
+}
